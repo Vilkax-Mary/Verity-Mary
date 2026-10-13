@@ -20,19 +20,21 @@ async def on_ready():
     print(f"البوت خدام دابا باسم: {client.user}")
 
 # أمر /start لتشغيل البوت وإدخاله لروَم الصوت كصنم دائم
-@client.tree.command(name="start", description="أمر لتشغيل البوت وإدخاله لروَم الصوت كصنم دائم")
+@client.tree.command(name="start", description="تشغيل البوت ودخوله لروم الصوت")
 async def start_bot(interaction: discord.Interaction):
     if interaction.user.voice and interaction.user.voice.channel:
         voice_channel = interaction.user.voice.channel
-        if interaction.guild.voice_client is not None:
-            await interaction.guild.voice_client.move_to(voice_channel)
-            await interaction.response.send_message(f"✅ تم نقل البوت بنجاح إلى الروم الصوتي: **{voice_channel.name}** ويثبت هنا!", ephemeral=True)
-        else:
-            await voice_channel.connect()
-            await interaction.response.send_message(f"🚀 تم تفعيل البوت بنجاح! دخل لـ **{voice_channel.name}** وغادي يبقى هنا ديما كصنم.", ephemeral=True)
+        try:
+            if interaction.guild.voice_client is not None:
+                await interaction.guild.voice_client.move_to(voice_channel)
+                await interaction.response.send_message(f"✅ تم نقل البوت إلى الروم: **{voice_channel.name}**", ephemeral=True)
+            else:
+                await voice_channel.connect()
+                await interaction.response.send_message(f"🚀 تم الدخول إلى الروم بنجاح: **{voice_channel.name}**", ephemeral=True)
+        except Exception as e:
+            await interaction.response.send_message(f"❌ حدث خطأ أثناء محاولة الدخول: {e}", ephemeral=True)
     else:
-        await interaction.response.send_message("❌ خصك تكون داخل لشي روم صوتي أولاً عاد دير الأمر `/start`!", ephemeral=True)
-
+        await interaction.response.send_message("❌ خصك تكون داخل لشي روم صوتية أولاً!", ephemeral=True)
 # ميزة إضافية: أمر /clear لمسح الرسائل بسرعة
 @client.tree.command(name="clear", description="مسح عدد محدد من الرسائل في الشات")
 @app_commands.describe(amount="عدد الرسائل المراد مسحها")
