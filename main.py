@@ -44,5 +44,5 @@ async def clear(interaction: discord.Interaction, amount: int):
     await interaction.channel.purge(limit=amount)
     await interaction.response.send_message(f"🧹 تم بنجاح مسح **{amount}** رسالة!", ephemeral=True)
 
-TOKEN = "التوكن_ديالك_هنا_بين_علامات_تنصيص"
+TOKEN = "حط_التوكن_الجديدة_هنا"
 client.run(TOKEN)
